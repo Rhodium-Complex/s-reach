@@ -1,0 +1,50 @@
+version: '3'
+services:
+  db:
+    image: mcs07/postgres-rdkit 
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ./postgres/pg_dumpall:/usr/src/
+      - ./postgres/postgresql.conf:/etc/postgresql.conf
+    networks: 
+      - ECHA
+    expose: 
+      - 5432
+      
+  web:
+    #https://github.com/yamasakih/docker-compose-django-rdkit/blob/master/docker-compose.yml
+    build: ./Django
+    #command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./S-REACH:/code
+      - static:/usr/src/app/static
+    restart: always
+    expose: 
+      - 8000
+    depends_on:
+      - db
+    networks: 
+      - ECHA
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 8888:80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - static:/usr/src/app/static
+    depends_on:
+      - web
+    networks: 
+      - ECHA
+
+volumes:
+  dbdata:
+  static:
+
+networks:
+  ECHA:

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ja">{% load static %}
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <script type="text/javascript" language="javascript" src="{% static '/jsme.nocache.js' %}"></script>
+    <script>
+        //this function will be called after the JavaScriptApplet code has been loaded.
+        function jsmeOnLoad() {
+            //Instantiate a new JSME:
+            //arguments: HTML id, width, height (must be string not number!)
+
+            jsmeApplet = new JSApplet.JSME("appletContainer", "600px", "440px", {
+                //optional parameters
+                "smiles":"{% block smiles %}{% endblock %}"
+            });
+            document.JME = jsmeApplet;
+            document.getElementById("inchiKeyUrlTextArea").value = jsmeApplet.getWebSearchInchiKeyBaseUrl();
+        }
+        function getSmiles() {
+            document.forms.form1.smiles.value = document.JME.smiles();
+            var f = document.forms["form1"];
+            f.method = "POST"; 
+            f.submit();
+            return false;
+        }
+    </script>
+    <link rel="stylesheet" href="{% static 'css/library.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
+</head>
+
+<body>
+    <div class="header">
+        <a href="/search/" {% block manu_s %}{% endblock %}>検索画面</a><a href="/create/" {% block manu_c %}{% endblock %}>登録画面</a><a href="/admin/"  {% block manu_a %}{% endblock %}>管理者</a>
+    </div>
+    <div class="container">
+{% block container %}{% endblock %}
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}登録画面{% endblock %}
+{% block smiles %}{% if form.smiles.value %}{{form.smiles.value}}{%endif%}{% endblock %}
+{% block manu_c %}class="select"{% endblock %}
+{% block container %}
+        <div id="appletContainer"></div>
+        <form name="form1" action="/create/" method="post" class="nomargin" enctype="multipart/form-data" autocomplete="off"> 
+            {% for error in form.smiles.errors %}<br><span class="errortext">↑{{ error }}</span>{% endfor %}
+            {% csrf_token %}
+            <div class="from_table">
+                <div class="field">
+                    <div >{{ form.name.label_tag }}</div>
+                    <div >
+                        {{ form.name }}
+                        {% if form.name.help_text %}<span class="helptext">{{ form.name.help_text }}</span>{% endif %}
+                        {% for error in form.name.errors %}<br><span class="errortext">↑{{ error }}</span>{% endfor %}
+                    </div>
+                </div>
+                <div class="field" style="display: none;">
+                    <div >{{ form.smiles.label_tag }}</div>
+                    <div >
+                        {{ form.smiles }}
+                        {% if form.smiles.help_text %}<span class="helptext">{{ form.smiles.help_text }}</span>{% endif %}
+                        {% for error in form.smiles.errors %}<span class="errortext">↑{{ error }}</span>{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div >{{ form.expdata.label_tag }}</div>
+                    <div >
+                        {{ form.expdata }}
+                        {% if form.expdata.help_text %}<span class="helptext">{{ form.expdata.help_text }}</span>{% endif %}
+                        {% for error in form.expdata.errors %}<br><span class="errortext">↑{{ error }}</span>{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div >{{ form.seller.label_tag }}</div>
+                    <div >
+                        {{ form.seller }}
+                        {% if form.seller.help_text %}<span class="helptext">{{ form.seller.help_text }}</span>{% endif %}
+                        {% for error in form.seller.errors %}<br><span class="errortext">↑{{ error }}</span>{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div >{{ form.properties.label_tag }}</div>
+                    <div >
+                        {{ form.properties }}
+                        {% if form.properties.help_text %}<span class="helptext">{{ form.properties.help_text }}</span>{% endif %}
+                        {% for error in form.properties.errors %}<br><span class="errortext">↑{{ error }}</span>{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div >{{ form.HNMR.label_tag }}</div>
+                    <div >
+                        {{ form.HNMR }}
+                        {% if form.HNMR.help_text %}<span class="helptext">{{ form.HNMR.help_text }}</span>{% endif %}
+                        {% for error in form.HNMR.errors %}<br><span class="errortext">↑{{ error }}</span>{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div >{{ form.CNMR.label_tag }}</div>
+                    <div >
+                        {{ form.CNMR }}
+                        {% if form.CNMR.help_text %}<span class="helptext">{{ form.CNMR.help_text }}</span>{% endif %}
+                        {% for error in form.CNMR.errors %}<br><span class="errortext">↑{{ error }}</span>{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div >{{ form.IR.label_tag }}</div>
+                    <div >
+                        {{ form.IR }}
+                        {% if form.IR.help_text %}<span class="helptext">{{ form.IR.help_text }}</span>{% endif %}
+                        {% for error in form.IR.errors %}<br><span class="errortext">↑{{ error }}</span>{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div >{{ form.UV_vis.label_tag }}</div>
+                    <div >
+                        {{ form.UV_vis }}
+                        {% if form.UV_vis.help_text %}<span class="helptext">{{ form.UV_vis.help_text }}</span>{% endif %}
+                        {% for error in form.UV_vis.errors %}<br><span class="errortext">↑{{ error }}</span>{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div >{{ form.comments.label_tag }}</div>
+                    <div >
+                        {{ form.comments }}
+                        {% if form.comments.help_text %}<span class="helptext">{{ form.comments.help_text }}</span>{% endif %}
+                        {% for error in form.comments.errors %}<br><span class="errortext">↑{{ error }}</span>{% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% if form.duplicate_allow.errors %}
+                    {{ form.duplicate_allow }}化合物が重複することを許可する
+                    {% if form.duplicate_allow.help_text %}<span class="helptext">{{ form.duplicate_allow.help_text|linebreaksbr }}</span>{% endif %}
+                    {% for error in form.duplicate_allow.errors %}<br>{{ error|linebreaksbr }}{% endfor %}
+                    <br>
+            {% endif %}
+        </form>
+        <button type="button" onclick='getSmiles();'>登録</button>
+
+        
+        {%if form.result_smiles%}
+        <hr>
+        <h3>重複している分子</h3>
+        {% endif %}
+        <div class="result_table">
+            {% for item in form.result_smiles %}
+            <div class="result_table_row">
+                <div code="JME.class" archive="JME.jar" width="200px" height="200px" style="display:table-cell;border-top: 1px gray solid;">
+                    <param name="options" value="depict,useopenchemlib">
+                    <param name="smiles"  value="{{ item.smiles}}">
+                </div>
+                
+                <div class="result_detail">
+                    {%if item.name %}<h3>{{item.name}}</h3>{% endif %}
+                    <table>
+                        <tr><td>コード：</td><td>{{ item.expdata | linebreaksbr}}</td></tr>
+                        {%if item.HNMR   %}<tr><td>HNMR   ：</td><td>{{ item.HNMR}}</td></tr>{% endif %}
+                        {%if item.CNMR   %}<tr><td>CNMR   ：</td><td>{{ item.CNMR}}</td></tr>{% endif %}
+                        {%if item.IR     %}<tr><td>IR     ：</td><td>{{ item.IR  }}</td></tr>{% endif %}
+                        {%if item.UV_vis %}<tr><td>UV_vis ：</td><td>{{ item.UV_vis}}</td></tr>{% endif %}
+                    </table>
+                    <a class="gotoEdit" href="/update/{{item.id}}">編集画面へ</a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+{% endblock %}
+

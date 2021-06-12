@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}編集画面{%if form.name.value%}:{{ form.name.value }}{%endif%}{% endblock %}
+{% if form.smiles.value %}{% block smiles %}{{ Inventry.smiles }}{% endblock %}{%endif%}
+{% block manu_s %}class="select"{% endblock %}
+{% block container %}
+        <div id="appletContainer"></div>
+        <form name="form1" action="" method="post" enctype="multipart/form-data" class="nomargin" autocomplete="off"> 
+            {% csrf_token %}
+
+            {% for error in form.smiles.errors %}<br>↑{{ error }}{% endfor %}
+            <div class="from_table">
+                <div class="field">
+                    <div>{{ form.counter.label_tag }}</div>
+                    <div>
+                        {{ form.counter }}
+                        {% if form.name.help_text %}<span class="helptext">{{ form.name.help_text }}</span>{% endif %}
+                        {% for error in form.name.errors %}<br>{{ error }}{% endfor %}
+                    </div>
+                </div>
+                <div class="field" style="display: none;">
+                    <div ></div>
+                    <div>
+                        {{ form.smiles }}{{ Inventry.mw }}
+                        {% if form.smiles.help_text %}<span class="helptext">{{ form.smiles.help_text }}</span>{% endif %}
+                        {% for error in form.smiles.errors %}<br>{{ error }}{% endfor %}
+                    </div>
+                </div>
+                <div class="field" style="display: none;">
+                    <div ></div>
+                    <div>
+                    <input name="compound" value="{{id}}" required="" id="id_compound">
+                    </div>
+                </div>
+                
+            </div>
+        <button>発注</button>
+        </form>
+
+{% endblock %}

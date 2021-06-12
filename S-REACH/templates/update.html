@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}編集画面{%if form.name.value%}:{{ form.name.value }}{%endif%}{% endblock %}
+{% if form.smiles.value %}{% block smiles %}{{ form.smiles.value}}{% endblock %}{%endif%}
+{% block manu_s %}class="select"{% endblock %}
+{% block container %}
+        <div id="appletContainer"></div>
+        <form name="form1" action="" method="post" enctype="multipart/form-data" class="nomargin" autocomplete="off"> 
+            {% csrf_token %}
+
+            {% for error in form.smiles.errors %}<br>↑{{ error }}{% endfor %}
+            <div class="from_table">
+                <div class="field">
+                    <div>{{ form.name.label_tag }}</div>
+                    <div>
+                        {{ form.name }}
+                        {% if form.name.help_text %}<span class="helptext">{{ form.name.help_text }}</span>{% endif %}
+                        {% for error in form.name.errors %}<br>{{ error }}{% endfor %}
+                    </div>
+                </div>
+                <div class="field" style="display: none;">
+                    <div >{{ form.smiles.label_tag }}</div>
+                    <div>
+                        {{ form.smiles }}
+                        {% if form.smiles.help_text %}<span class="helptext">{{ form.smiles.help_text }}</span>{% endif %}
+                        {% for error in form.smiles.errors %}<br>{{ error }}{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div>{{ form.expdata.label_tag }}</div>
+                    <div>
+                        {{ form.expdata }}
+                        {% if form.expdata.help_text %}<span class="helptext">{{ form.expdata.help_text }}</span>{% endif %}
+                        {% for error in form.expdata.errors %}<br>↑{{ error }}{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div>{{ form.seller.label_tag }}</div>
+                    <div>
+                        {{ form.seller }}
+                        {% if form.seller.help_text %}<span class="helptext">{{ form.seller.help_text }}</span>{% endif %}
+                        {% for error in form.seller.errors %}<br>↑{{ error }}{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div >{{ form.properties.label_tag }}</div>
+                    <div >
+                        {{ form.properties }}
+                        {% if form.properties.help_text %}<span class="helptext">{{ form.properties.help_text }}</span>{% endif %}
+                        {% for error in form.properties.errors %}<br>{{ error }}{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div >{{ form.HNMR.label_tag }}</div>
+                    <div >
+                        {{ form.HNMR }}<br>
+                        {{ form.CNMR }}<br>
+                        {{ form.IR }}<br>
+                        {{ form.UV_vis }}<br>
+                        {% if form.HNMR.help_text %}<span class="helptext">{{ form.HNMR.help_text }}</span>{% endif %}
+                        {% for error in form.HNMR.errors %}<br>{{ error }}{% endfor %}
+                    </div>
+                </div>
+                <div class="field">
+                    <div >{{ form.comments.label_tag }}</div>
+                    <div >
+                        {{ form.comments }}<br>
+                        {% if form.comments.help_text %}<span class="helptext">{{ form.comments.help_text }}</span>{% endif %}
+                        {% for error in form.comments.errors %}<br>{{ error }}{% endfor %}
+                    </div>
+                </div>
+            </div>
+        </form>
+        <button type="button" onclick='getSmiles();'>登録</button>
+
+{% endblock %}
