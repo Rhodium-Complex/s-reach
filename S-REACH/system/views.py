@@ -112,11 +112,11 @@ def Qstack(smarts):
     # 非芳香族で検索した際に、二重結合部位がベンゾ環の場合
     # 検索結果に出ないことの対応策。
     # SMARTS表記([#6]など)にすることで解決を図る。
-    smarts = re.sub( r'\[#6\]([a-z])',r'C\1',smarts.replace('C','[#6]'))
-    smarts = re.sub( r'\[#7\]([a-z])',r'N\1',smarts.replace('N','[#7]'))
-    smarts = re.sub( r'\[#8\]([a-z])',r'O\1',smarts.replace('O','[#8]'))
-    smarts = re.sub(r'\[#15\]([a-z])',r'P\1',smarts.replace('P','[#15]'))
-    smarts = re.sub(r'\[#16\]([a-z])',r'S\1',smarts.replace('S','[#16]'))
+    smarts = re.sub( r'\[\[#6\]([a-z])',r'[C\1',smarts.replace('C','[#6]'))
+    smarts = re.sub( r'\[\[#7\]([a-z])',r'[N\1',smarts.replace('N','[#7]'))
+    smarts = re.sub( r'\[\[#8\]([a-z])',r'[O\1',smarts.replace('O','[#8]'))
+    smarts = re.sub(r'\[\[#15\]([a-z])',r'[P\1',smarts.replace('P','[#15]'))
+    smarts = re.sub(r'\[\[#16\]([a-z])',r'[S\1',smarts.replace('S','[#16]'))
 
     # 2重結合、1.5結合のSMARTSを強制的にリストアップする。
     # その結果をOR検索で順次結合している。

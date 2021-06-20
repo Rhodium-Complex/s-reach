@@ -6,7 +6,7 @@
         <form name="form1" action="/result/" method="post"> {% csrf_token %}
             <input type="hidden" name="smiles" value="">
             製品名:<input type="text" name="name" maxlength="1000" id="id_name" autocomplete="off"><br>
-            実験者:<input type="text" name="expdata" maxlength="1000" id="id_name" autocomplete="off">
+            コード:<input type="text" name="expdata" maxlength="1000" id="id_name" autocomplete="off">
         </form>
         <button type="button" onclick='getSmiles();'>検索</button>{{form}}
 {% endblock %}
