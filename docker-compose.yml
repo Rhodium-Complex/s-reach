@@ -17,8 +17,8 @@ services:
   web:
     #https://github.com/yamasakih/docker-compose-django-rdkit/blob/master/docker-compose.yml
     build: ./Django
-    #command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
+    #command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./S-REACH:/code
       - static:/usr/src/app/static
