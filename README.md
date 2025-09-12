@@ -25,7 +25,7 @@ S-REACH is a chemical compound database web application built with Django and RD
     ```bash
     docker-compose up -d --build
     ```
-4.  Access the application at `http://localhost:80`.
+4.  Access the application at `http://localhost:8888`.
 
 ### Technologies Used
 -   **Backend:** Django, Python, RDKit (Chemical Informatics)
@@ -63,7 +63,7 @@ S-REACHは、DjangoとRDKitで構築された化学化合物データベースWe
     ```bash
     docker-compose up -d --build
     ```
-4.  `http://localhost:80`でアプリケーションにアクセスします。
+4.  `http://localhost:8888`でアプリケーションにアクセスします。
 
 ### 使用技術
 -   **バックエンド:** Django, Python, RDKit（化学情報学）
