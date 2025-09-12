@@ -36,7 +36,7 @@ services:
       - 8888:80
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - static:/usr/src/app/static
+      - ./S-REACH/static:/usr/src/app/static
     depends_on:
       - web
     networks: 
