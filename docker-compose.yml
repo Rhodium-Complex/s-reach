@@ -1,7 +1,6 @@
-version: '3'
 services:
   db:
-    image: mcs07/postgres-rdkit 
+    build: ./postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: mypassword
@@ -41,6 +40,14 @@ services:
       - web
     networks: 
       - ECHA
+    restart: always
+    command: ["nginx","-g","daemon off;"]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:80/ || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
 
 volumes:
   dbdata:
