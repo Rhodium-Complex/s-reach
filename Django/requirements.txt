@@ -1,5 +1,5 @@
-psycopg2-binary
-Django
-pillow
-gunicorn
-rdkit==2025.03.5
+psycopg2-binary == 2.9.10
+Django == 5.2.6
+pillow == 11.3.0
+gunicorn == 23.0.0
+rdkit == 2025.03.5
