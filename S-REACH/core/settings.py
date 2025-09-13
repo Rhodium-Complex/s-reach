@@ -71,6 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8888']
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
