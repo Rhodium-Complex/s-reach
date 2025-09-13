@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
  && rm -rf /var/lib/apt/lists/*
  
 RUN mkdir /code
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 WORKDIR /code
 ADD requirements.txt /code/
 RUN pip install -U pip && \
