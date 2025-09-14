@@ -16,3 +16,7 @@ ADD requirements.txt /code/
 RUN pip install -U pip && \
     pip install -r requirements.txt && \
     pip install git+https://github.com/rdkit/django-rdkit.git
+
+ENV DJANGO_SETTINGS_MODULE=core.settings
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh

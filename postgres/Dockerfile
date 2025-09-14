@@ -5,35 +5,23 @@ ARG boost_dev_version=1.74
 ARG rdkit_git_url=https://github.com/rdkit/rdkit.git
 ARG rdkit_git_ref=Release_2024_03_1
 
-RUN apt-get update \
-    && apt-get install -yq --no-install-recommends \
-        ca-certificates \
-        curl \
-        gnupg \
-        lsb-release \
+RUN apt-get update && \
+    apt-get install -yq --no-install-recommends \
+    ca-certificates curl gnupg lsb-release \
+    build-essential cmake git coreutils \
+    libboost-iostreams${boost_dev_version}-dev \
+    libboost-regex${boost_dev_version}-dev \
+    libboost-serialization${boost_dev_version}-dev \
+    libboost-system${boost_dev_version}-dev \
+    libeigen3-dev libfreetype6-dev \
+    postgresql-server-dev-${postgres_version} \
+    zlib1g-dev \    
     && curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-    && echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-
-RUN apt-get update \
-    && apt-get install -yq --no-install-recommends \
-        build-essential \
-        cmake \
-        git \
-        coreutils \
-        libboost-iostreams${boost_dev_version}-dev \
-        libboost-regex${boost_dev_version}-dev \
-        libboost-serialization${boost_dev_version}-dev \
-        libboost-system${boost_dev_version}-dev \
-        libeigen3-dev \
-        libfreetype6-dev \
-        postgresql-server-dev-${postgres_version} \
-        zlib1g-dev \
+    && echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /opt/RDKit-build \
-    && chown postgres:postgres /opt/RDKit-build
-
+RUN mkdir -p /opt/RDKit-build && chown postgres:postgres /opt/RDKit-build
 USER postgres
 WORKDIR /opt/RDKit-build
 
@@ -72,8 +60,6 @@ RUN make install
 RUN /bin/bash /opt/RDKit-build/rdkit/Code/PgSQL/rdkit/pgsql_install.sh
 
 USER postgres
-WORKDIR /opt/RDKit-build/rdkit
-
 RUN initdb -D /opt/RDKit-build/pgdata \
   && pg_ctl -D /opt/RDKit-build/pgdata -l /opt/RDKit-build/pgdata/log.txt start \
   && RDBASE="$PWD" LD_LIBRARY_PATH="$PWD/lib" ctest -j4 --output-on-failure \
